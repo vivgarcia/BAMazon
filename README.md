@@ -1,1 +1,2 @@
-# bamazon
+# Bamazon - Node.js & MySQL Application
+

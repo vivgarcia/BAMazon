@@ -25,7 +25,8 @@ function afterConnection() {
     connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     for(var i = 0; i < res.length; i++){
-        console.log(res[i].product_name);
+        console.log("ID: " + res[i].id + "\nProduct: " + res[i].product_name + "\nDepartment: " 
+        + res[i].department_name + "\nPrice: " + res[i].price + "\nQty: " + res[i].stock_quantity + "\n----------------------------------");
     }
     connection.end();
     });
