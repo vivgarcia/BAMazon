@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+require("console.table");
 // connect to mysql localhost
 var connection = mysql.createConnection({
     host: "localhost",
@@ -57,6 +58,11 @@ function start() {
             }
         }
     ]).then(function(answer){
-        
+        let itemBought = (answer.id)-1;
+        let qtyBought = parseInt(ans.qty);
+        let total = parseFloat(((res[itemBought].price) * qtyBought).toFixed(2));
+    
     })
+
+    
 }
