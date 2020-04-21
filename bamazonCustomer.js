@@ -52,21 +52,48 @@ function start() {
             message: "How much would you like to purchase?"
         }
     ]).then(function(answer){
-        let itemBought = answer.id - 1;
-        let qtyBought = parseInt(answer.qty);
-        let total = res[itemBought].price * qtyBought.toFixed(2);
-        console.log(total);
-        console.log(res[itemBought].stock_quantity);
-        if(res.stock_quantity > qtyBought){
-            connection.query("UPDATE products SET ? WHERE ?", [
-                {stock_quantity: res[itemBought].stock_quantity - qtyBought},
-                {id: answer.id}
-            ],
-            )
-        }
-        console.log("Success! Your total is $" + total.toFixed(2) + ". Your item(s) will arrive shortly!");
+        connection.query("SELECT * FROM products WHERE id =" + answer.id, function(err, res){
+            if(err) throw err;
+            console.log(res[0].stock_quantity);
+            if(answer.qty <= res[0].stock_quantity){
+                connection.query("UPDATE products SET ? WHERE ?", [
+                    {stock_quantity: res[itemBought].stock_quantity -= qtyBought},
+                    {id: answer.id}
+                    ],function(err){
+                    if(err){
+                        console.log(err);
+                        }
+                    }
+                    )
+            }
+        })
+        // let itemBought = answer.id - 1;
+        // let qtyBought = parseInt(answer.qty);
+        // let total = res[itemBought].price * qtyBought.toFixed(2);
+        // console.log(total);
+        // console.log(res[itemBought].stock_quantity);
+        // console.log(res);
+        //     console.log(res.stock_quantity);
+        //     console.log(res[itemBought]);
+        //     console.log(qtyBought);
+        // if(res.itemBought.stock_quantity >= qtyBought){
+
+        //     connection.query("UPDATE products SET ? WHERE ?", [
+        //         {stock_quantity: res[itemBought].stock_quantity -= qtyBought},
+        //         {id: answer.id}
+        //     ],function(err){
+        //         if(err){
+        //             console.log(err);
+        //         }
+        //     }
+        //     )
+        // }
+        // console.log("Success! Your total is $" + total.toFixed(2) + ". Your item(s) will arrive shortly!");
+
+
         connection.end();
     })
 
 });   
 }
+
